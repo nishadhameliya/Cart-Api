@@ -1,0 +1,85 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div align="center">
+        <h2>CARTS</h2>
+
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Products</th>
+                    <th>Total</th>
+                    <th>DiscountedTotal</th>
+                    <th>UserId</th>
+                    <th>TotalProducts</th>
+                    <th>TotalQuantity</th>
+                </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+    </div>
+
+    <script>
+         
+         const viewcarts = () =>{
+
+            fetch(`https://dummyjson.com/carts`)
+            .then(res => res.json())
+            .then((data) =>{
+                const carts = data.carts;
+                console.log(carts);
+
+                let tbl = "";
+                carts.map((value, index) => {
+                tbl += `
+                  <tr>
+                     <td>${value.id}</td>
+                     <td>
+                       <table border="1">
+                      <tr>
+                         <th>Product ID</th>
+                         <th>Product Title</th>
+                         <th>Product Price</th>
+                         <th>Product Quantity</th>
+                         <th>Product Total</th>
+                         <th>Product Discount Percentage</th>
+                         <th>Product Discounted Total</th>
+                         <th>Product Thumbnail</th>
+                       </tr>
+                         ${value.products.map(product => `
+                        <tr>
+                          <td>${product.id}</td>
+                          <td>${product.title}</td>
+                          <td>${product.price}</td>
+                          <td>${product.quantity}</td>
+                          <td>${product.total}</td>
+                          <td>${product.discountPercentage}%</td>
+                          <td>${product.discountedTotal}</td>
+                          <td><img src="${product.thumbnail}" alt="Product Thumbnail" width="100" height="100"></td>
+                        </tr>
+                         `)}
+                      </table>
+                    </td>
+                    <td>${value.total}</td>
+                    <td>${value.discountedTotal}</td>
+                    <td>${value.userId}</td>
+                    <td>${value.totalProducts}</td>
+                    <td>${value.totalQuantity}</td>
+                  </tr>`;
+               });
+           document.getElementById('tbody').innerHTML = tbl;
+                })
+         }
+
+         viewcarts();
+    </script>
+</body>
+</html> 
+
